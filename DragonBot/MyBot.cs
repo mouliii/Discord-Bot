@@ -54,7 +54,6 @@ namespace DragonBot
                     Array.Sort(b);
                     string result = "{ " + b[0] + " " + b[1] + " " + b[2] + " " + b[3] + " " + b[4] + " }";
                     await e.Channel.SendMessage(result);
-                    Console.WriteLine(result);
                     System.Threading.Thread.Sleep(200);
                     await e.Channel.SendMessage("Total: "+sum.ToString() );
                     if (sum < 10 && sum > 1)
@@ -94,6 +93,20 @@ namespace DragonBot
                         asd += commandNames[i] + ", ";
                     }
                     await e.Channel.SendMessage(asd);
+                });
+
+            commands.CreateCommand("XO")
+                .Do(async (e) =>
+                {
+                    bool gameIsOn = true;
+                    int[] numbers = new int[] { 1,2,3,4,5,6,7,8,9};
+                    await e.Channel.SendMessage("- -  Enter 1-9 - -");
+                    while (gameIsOn)
+                    {
+                        await e.Channel.SendMessage("|   |   |   |");
+                        await e.Channel.SendMessage("|   |   |   |");
+                        await e.Channel.SendMessage("|   |   |   |");
+                    }
                 });
 
             // EXECUTE
