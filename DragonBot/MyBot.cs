@@ -37,9 +37,10 @@ namespace DragonBot
             commands = discord.GetService<CommandService>();
 
             commands.CreateCommand("Hello")
+                .Alias(new string[] {"hi", "hey" })
                 .Do(async (e) =>
                 {
-                    await e.Channel.SendMessage("╭∩╮( ͡° ͜ʖ ͡°)");
+                    await e.Channel.SendMessage("╭∩╮( ͡° ͜ʖ ͡°) @"+ e.User.Name);
                 });
 
             commands.CreateCommand("roll")
@@ -71,6 +72,7 @@ namespace DragonBot
                 });
 
             commands.CreateCommand("mount")
+                .Description("Invincible's Reins")
                 .Do(async (e) =>
                 {
                     int m = 0;
@@ -80,7 +82,7 @@ namespace DragonBot
                         m = rand.Next(1, 100);
                         attempts++;
                     }
-                    await e.Channel.SendMessage(attempts.ToString() + " attempts" );
+                    await e.Channel.SendMessage(e.User.Name + " got " + e.Command.Description + " after " + attempts.ToString() + " tries" );
                 });
 
             commands.CreateCommand("help")
@@ -108,6 +110,7 @@ namespace DragonBot
                         await e.Channel.SendMessage("|   |   |   |");
                     }
                 });
+
 
             // EXECUTE
             discord.ExecuteAndWait(async () =>
