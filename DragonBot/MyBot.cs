@@ -11,9 +11,10 @@ namespace DragonBot
     class MyBot
     {
         DiscordClient discord;
-
+        Random rand;
         public MyBot()
         {
+            rand = new Random();
             discord = new DiscordClient(x =>
             {
                 x.LogLevel = LogSeverity.Info;
@@ -26,12 +27,27 @@ namespace DragonBot
                 x.AllowMentionPrefix = true;
             });
             // COMMANDS
-            var commands = discord.GetService<CommandService>();
+            var commands = discord.GetService<CommandService>();  
 
             commands.CreateCommand("Hello")
                 .Do(async (e) =>
                 {
                     await e.Channel.SendMessage("╭∩╮( ͡° ͜ʖ ͡°)");
+                });
+
+            commands.CreateCommand("roll")
+                .Do(async (e) =>
+                {
+                    int a = 0;
+                    await e.Channel.SendMessage("Roll the bones");
+                    while (a < 5)
+                    {
+                        int b;
+                        b = rand.Next(1,5);
+                        await e.Channel.SendMessage(b.ToString() );
+                        System.Threading.Thread.Sleep(150);
+                        a++;
+                    }
                 });
             // EXECUTE
             discord.ExecuteAndWait(async () =>
