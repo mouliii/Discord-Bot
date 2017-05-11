@@ -8,10 +8,15 @@ using Discord.Commands;
 
 namespace DragonBot
 {
+
     class MyBot
     {
         DiscordClient discord;
+        CommandService commands;
         Random rand;
+
+        int[] b = new int[5];
+
         public MyBot()
         {
             rand = new Random();
@@ -27,7 +32,7 @@ namespace DragonBot
                 x.AllowMentionPrefix = true;
             });
             // COMMANDS
-            var commands = discord.GetService<CommandService>();  
+            commands = discord.GetService<CommandService>();
 
             commands.CreateCommand("Hello")
                 .Do(async (e) =>
@@ -38,16 +43,17 @@ namespace DragonBot
             commands.CreateCommand("roll")
                 .Do(async (e) =>
                 {
-                    int a = 0;
-                    await e.Channel.SendMessage("Roll the bones");
-                    while (a < 5)
+                   //await e.Channel.SendMessage("Roll the bones");
+                    for (int i = 0; i < b.Length; i++)
                     {
-                        int b;
-                        b = rand.Next(1,5);
-                        await e.Channel.SendMessage(b.ToString() );
-                        System.Threading.Thread.Sleep(150);
-                        a++;
+                        b[i] = rand.Next(1, 5);
                     }
+                    Array.Sort(b);
+                    string result = "{ " + b[0] + " " + b[1] + " " + b[2] + " " + b[3] + " " + b[4] + " }";
+                    await e.Channel.SendMessage(result);
+                    Console.WriteLine(result);
+                    System.Threading.Thread.Sleep(200);
+                    await e.Channel.SendMessage(":PogChamp:");
                 });
             // EXECUTE
             discord.ExecuteAndWait(async () =>
