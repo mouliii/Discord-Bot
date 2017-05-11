@@ -15,11 +15,13 @@ namespace DragonBot
         CommandService commands;
         Random rand;
 
+        string[] commandNames = new string[] {"hello", "roll", "mount" };
         int[] b = new int[5];
 
         public MyBot()
         {
             rand = new Random();
+
             discord = new DiscordClient(x =>
             {
                 x.LogLevel = LogSeverity.Info;
@@ -43,18 +45,57 @@ namespace DragonBot
             commands.CreateCommand("roll")
                 .Do(async (e) =>
                 {
-                   //await e.Channel.SendMessage("Roll the bones");
+                    int sum = 0;
                     for (int i = 0; i < b.Length; i++)
                     {
-                        b[i] = rand.Next(1, 5);
+                        b[i] = rand.Next(1, 6);
+                        sum += b[i];
                     }
                     Array.Sort(b);
                     string result = "{ " + b[0] + " " + b[1] + " " + b[2] + " " + b[3] + " " + b[4] + " }";
                     await e.Channel.SendMessage(result);
                     Console.WriteLine(result);
                     System.Threading.Thread.Sleep(200);
-                    await e.Channel.SendMessage(":PogChamp:");
+                    await e.Channel.SendMessage("Total: "+sum.ToString() );
+                    if (sum < 10 && sum > 1)
+                    {
+                        await e.Channel.SendMessage(":monkas:");
+                    }
+                    else if(sum == 6)
+                    {
+                        await e.Channel.SendMessage(":wutface:");
+                    }
+                    else if (sum > 20)
+                    {
+                        await e.Channel.SendMessage(":PogChamp:");
+                    }
                 });
+
+            commands.CreateCommand("mount")
+                .Do(async (e) =>
+                {
+                    int m = 0;
+                    int attempts = 0;
+                    while (m != 1)
+                    {
+                        m = rand.Next(1, 100);
+                        attempts++;
+                    }
+                    await e.Channel.SendMessage(attempts.ToString() + " attempts" );
+                });
+
+            commands.CreateCommand("help")
+                .Do(async (e) =>
+                {
+                    string asd = "";
+                    await e.Channel.SendMessage("Commands are:");
+                    for (int i = 0; i < commandNames.Length; i++)
+                    {
+                        asd += commandNames[i] + ", ";
+                    }
+                    await e.Channel.SendMessage(asd);
+                });
+
             // EXECUTE
             discord.ExecuteAndWait(async () =>
             {
