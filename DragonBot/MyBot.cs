@@ -37,7 +37,7 @@ namespace DragonBot
             commands = discord.GetService<CommandService>();
 
             commands.CreateCommand("Hello")
-                .Alias(new string[] {"hi", "hey" })
+                .Alias(new string[] {"hi", "hey", "fu" })
                 .Do(async (e) =>
                 {
                     await e.Channel.SendMessage("╭∩╮( ͡° ͜ʖ ͡°) @"+ e.User.Name);
@@ -96,22 +96,7 @@ namespace DragonBot
                     }
                     await e.Channel.SendMessage(asd);
                 });
-
-            commands.CreateCommand("XO")
-                .Do(async (e) =>
-                {
-                    bool gameIsOn = true;
-                    int[] numbers = new int[] { 1,2,3,4,5,6,7,8,9};
-                    await e.Channel.SendMessage("- -  Enter 1-9 - -");
-                    while (gameIsOn)
-                    {
-                        await e.Channel.SendMessage("|   |   |   |");
-                        await e.Channel.SendMessage("|   |   |   |");
-                        await e.Channel.SendMessage("|   |   |   |");
-                    }
-                });
-
-
+            
             // EXECUTE
             discord.ExecuteAndWait(async () =>
             {
